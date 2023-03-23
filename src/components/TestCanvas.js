@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { clamp } from 'lodash';
+import { moveTowards } from '../utils/math';
 
 const Box = (props) => {
   const speedOnClick = 10;
@@ -19,14 +19,11 @@ const Box = (props) => {
     const userData = mesh.current.userData;
     userData.currentSpeed ??= targetSpeed;
     // userData.currentSpeed = clamp(userData.currentSpeed, 0, 0.5);
-    const { currentSpeed } = userData;
 
-    // Move current speed towards target speed
-    if (currentSpeed < targetSpeed) userData.currentSpeed += delta * speedStep;
-    else if (currentSpeed > targetSpeed) userData.currentSpeed -= delta * speedStep;
+    userData.currentSpeed = moveTowards(userData.currentSpeed, targetSpeed, delta * speedStep);
 
-    mesh.current.rotation.x += delta * currentSpeed;
-    mesh.current.rotation.y += delta * currentSpeed;
+    mesh.current.rotation.x += delta * userData.currentSpeed;
+    mesh.current.rotation.y += delta * userData.currentSpeed;
   });
   // Return view, these are regular three.js elements expressed in JSX
   return (
