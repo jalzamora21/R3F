@@ -41,7 +41,7 @@ const Box = (props) => {
     if (userData.currentSpeed > highSpeedThreshold) userData.currentColor = highSpeedColor;
 
     userData.currentSpeed = moveTowards(userData.currentSpeed, targetSpeed, delta * speedStep);
-    userData.currentColor.lerp(targetColor, delta * colorShiftSpeed);
+    userData.currentColor.lerp(targetColor, Math.min(delta * colorShiftSpeed, 1));
 
     mesh.current.rotation.x += delta * userData.currentSpeed;
     mesh.current.rotation.y += delta * userData.currentSpeed;
@@ -53,7 +53,7 @@ const Box = (props) => {
       {...props}
       ref={mesh}
       scale={active ? 1.1 : 1}
-      onClick={(event) => {
+      onClick={() => {
         mesh.current.userData.currentSpeed = speedOnClick;
         // setActive(!active);
       }}
@@ -63,7 +63,7 @@ const Box = (props) => {
         console.log('pointer over', event);
         setHover(true);
       }}
-      onPointerOut={(event) => setHover(false)}
+      onPointerOut={() => setHover(false)}
     >
       <dodecahedronGeometry args={[2]} />
       <meshStandardMaterial wireframe={true} />
@@ -71,7 +71,7 @@ const Box = (props) => {
   );
 };
 
-const TestCanvas = (props) => {
+const TestCanvas = () => {
   return (
     <Canvas>
       <ambientLight />
