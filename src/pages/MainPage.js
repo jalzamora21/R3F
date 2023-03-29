@@ -1,12 +1,12 @@
 import { Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
-import TestCanvas from '../components/TestCanvas';
+import ClickMeGeometry from '../components/ClickMeGeometry';
 
 const MainPage = () => {
   return (
     <Grid container height="500px" justifyContent="center">
       <Grid xs={12} md={6} height="100%">
-        <TestCanvas></TestCanvas>
+        <ClickMeGeometry></ClickMeGeometry>
       </Grid>
       <Grid xs={12} md={6} sx={{ p: 8 }}>
         <Typography variant="h2">{"<- Click me!"}</Typography>

@@ -6,7 +6,7 @@ import { useControls } from 'leva';
 
 const Box = (props) => {
 
-  const levaProperties = useControls('mainSection', {
+  const levaProperties = useControls('ClickMeGeometry', {
     speedOnClick: { value: 30, min: 1, max: 100 },
     colorShiftSpeed: { value: 5, min: 1, max: 15 },
     speedStep: { value: 3, min: 1, max: 6 },
@@ -75,7 +75,6 @@ const Box = (props) => {
       onPointerDown={() => setActive(true)}
       onPointerUp={() => setActive(false)}
       onPointerOver={(event) => {
-        console.log('pointer over', event);
         setHover(true);
       }}
       onPointerOut={() => setHover(false)}
@@ -86,7 +85,7 @@ const Box = (props) => {
   );
 };
 
-const TestCanvas = () => {
+const ClickMeGeometry = () => {
   return (
     <Canvas>
       <ambientLight />
@@ -95,4 +94,4 @@ const TestCanvas = () => {
   );
 };
 
-export default TestCanvas;
+export default ClickMeGeometry;
