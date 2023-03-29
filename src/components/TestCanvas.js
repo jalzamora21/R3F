@@ -2,23 +2,34 @@ import { useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { inverseLerp, moveTowards } from '../utils/math';
 import { Color } from 'three';
+import { useControls } from 'leva';
 
 const Box = (props) => {
-  const speedOnClick = 30;
-  const colorShiftSpeed = 5;
-  const speedStep = 3;
-  const hoverColor = new Color('#0077ff');
-  const defaultColor = new Color('white');
-  const highSpeedColor = new Color('orange');
-  const highSpeedThreshold = 0.7;
+
+  const levaProperties = useControls('mainSection', {
+    speedOnClick: { value: 30, min: 1, max: 100 },
+    colorShiftSpeed: { value: 5, min: 1, max: 15 },
+    speedStep: { value: 3, min: 1, max: 6 },
+    hoverColor: '#0077ff',
+    defaultColor: '#fff',
+    highSpeedColor: '#ff7f00',
+    highSpeedThreshold: { value: 0.7, min: 0.1, max: 100 },
+  });
+
+  levaProperties.hoverColor = new Color(levaProperties.hoverColor);
+  levaProperties.defaultColor = new Color(levaProperties.defaultColor);
+  levaProperties.highSpeedColor = new Color(levaProperties.highSpeedColor);
+
+  const { speedOnClick, colorShiftSpeed, speedStep, hoverColor, defaultColor, highSpeedColor, highSpeedThreshold } = levaProperties;
 
   const getTargetColor = (currentSpeed, hovered) => {
     if (currentSpeed > highSpeedThreshold) {
-      inverseLerp(highSpeedThreshold, speedOnClick, currentSpeed)
+      inverseLerp(highSpeedThreshold, speedOnClick, currentSpeed);
 
-      return highSpeedColor.clone().lerp(defaultColor, inverseLerp(speedOnClick, highSpeedThreshold, currentSpeed));
-    }
-    else if (hovered) return hoverColor;
+      return highSpeedColor
+        .clone()
+        .lerp(defaultColor, inverseLerp(speedOnClick, highSpeedThreshold, currentSpeed));
+    } else if (hovered) return hoverColor;
     else return defaultColor;
   };
 
@@ -40,7 +51,11 @@ const Box = (props) => {
 
     if (userData.currentSpeed > highSpeedThreshold) userData.currentColor = highSpeedColor;
 
-    userData.currentSpeed = moveTowards(userData.currentSpeed, targetSpeed, userData.currentSpeed * delta * speedStep);
+    userData.currentSpeed = moveTowards(
+      userData.currentSpeed,
+      targetSpeed,
+      userData.currentSpeed * delta * speedStep,
+    );
     userData.currentColor.lerp(targetColor, Math.min(delta * colorShiftSpeed, 1));
 
     mesh.current.rotation.x += delta * userData.currentSpeed;
