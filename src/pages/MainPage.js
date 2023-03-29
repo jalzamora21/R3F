@@ -9,7 +9,7 @@ const MainPage = () => {
         <TestCanvas></TestCanvas>
       </Grid>
       <Grid xs={12} md={6} sx={{ p: 8 }}>
-        <Typography variant="h2">This is a title</Typography>
+        <Typography variant="h2">{"<- Click me!"}</Typography>
         <Typography align="justify">
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius hic iste itaque minus
           soluta! Ad, asperiores consequatur consequuntur eos eum inventore ipsam minus neque, nisi

@@ -4,7 +4,7 @@ import { inverseLerp, moveTowards } from '../utils/math';
 import { Color } from 'three';
 
 const Box = (props) => {
-  const speedOnClick = 10;
+  const speedOnClick = 30;
   const colorShiftSpeed = 5;
   const speedStep = 3;
   const hoverColor = new Color('#0077ff');
@@ -40,7 +40,7 @@ const Box = (props) => {
 
     if (userData.currentSpeed > highSpeedThreshold) userData.currentColor = highSpeedColor;
 
-    userData.currentSpeed = moveTowards(userData.currentSpeed, targetSpeed, delta * speedStep);
+    userData.currentSpeed = moveTowards(userData.currentSpeed, targetSpeed, userData.currentSpeed * delta * speedStep);
     userData.currentColor.lerp(targetColor, Math.min(delta * colorShiftSpeed, 1));
 
     mesh.current.rotation.x += delta * userData.currentSpeed;
