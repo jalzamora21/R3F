@@ -3,6 +3,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import ClickMeGeometry from '../components/ClickMeGeometry';
 import './mainPage.css';
 import ScrollNavigation from '../components/ScrollNavigation/ScrollNavigation';
+import MouseWarpGeometry from '../components/MouseWarpGeometry';
 
 const ClickMeSection = ({ id }) => {
   return (
@@ -25,7 +26,9 @@ const ClickMeSection = ({ id }) => {
 };
 
 const WelcomeSection = ({ id }) => {
-  return <Grid id={id} container height="100vh"></Grid>;
+  return <Grid id={id} container height="100vh">
+    <MouseWarpGeometry />
+  </Grid>;
 };
 
 const scrollNavConfig = [
@@ -54,9 +57,6 @@ const scrollNavConfig = [
 const MainPage = () => {
   return (
     <>
-      <ScrollNavigation
-        // activeIndex={snapIndex}
-        config={scrollNavConfig} />
       <Box className="scrollSnapContainer">
         <WelcomeSection id="welcomeSection" />
         <ClickMeSection id="sec1" />
@@ -64,6 +64,9 @@ const MainPage = () => {
         <ClickMeSection id="sec3" />
         <ClickMeSection id="sec4" />
       </Box>
+      <ScrollNavigation
+        // activeIndex={snapIndex}
+        config={scrollNavConfig} />
     </>
   );
 };

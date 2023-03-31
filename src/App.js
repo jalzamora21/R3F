@@ -16,15 +16,15 @@ const App = () => {
 
   return (
     <ThemeProvider theme={darkTheme}>
+      <Leva hidden={!debugActive} />
+      <CssBaseline />
+      <MainPage />
       <IconButton
         sx={{ position: 'fixed', bottom: 25, right: 25 }}
         onClick={() => setDebugActive(!debugActive)}
       >
         <BugReportIcon color={debugActive ? 'success' : 'inherit'} />
       </IconButton>
-      <Leva hidden={!debugActive} />
-      <CssBaseline />
-      <MainPage />
     </ThemeProvider>
   );
 };
