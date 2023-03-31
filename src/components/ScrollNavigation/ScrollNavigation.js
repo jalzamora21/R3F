@@ -11,7 +11,7 @@ const ScrollNavigation = ({ config, activeIndex }) => {
     return;
   return (
     <Box className="scrollNavigator" sx={{ mr: 8 }}>
-      <Stepper activeStep={activeIndex} nonLinear orientation="vertical">
+      <Stepper activeStep={-1} nonLinear orientation="vertical">
         {config.map((step, index) => (
           <Step key={step.id}>
             <StepButton

@@ -54,9 +54,9 @@ const scrollNavConfig = [
 const MainPage = () => {
   return (
     <>
-      {/*<ScrollNavigation*/}
-      {/*  // activeIndex={snapIndex}*/}
-      {/*  config={scrollNavConfig} />*/}
+      <ScrollNavigation
+        // activeIndex={snapIndex}
+        config={scrollNavConfig} />
       <Box className="scrollSnapContainer">
         <WelcomeSection id="welcomeSection" />
         <ClickMeSection id="sec1" />
