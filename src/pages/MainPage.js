@@ -4,6 +4,7 @@ import ClickMeGeometry from '../components/ClickMeGeometry';
 import './mainPage.css';
 import ScrollNavigation from '../components/ScrollNavigation/ScrollNavigation';
 import MouseWarpGeometry from '../components/MouseWarpGeometry';
+import BakedScene from "../components/BakedScene";
 
 const ClickMeSection = ({ id }) => {
   return (
@@ -25,10 +26,20 @@ const ClickMeSection = ({ id }) => {
   );
 };
 
+const BakedSceneSection = ({ id }) => {
+  return (
+      <Grid id={id} container height="100vh">
+        <BakedScene />
+      </Grid>
+  )
+}
+
 const WelcomeSection = ({ id }) => {
-  return <Grid id={id} container height="100vh">
-    <MouseWarpGeometry />
-  </Grid>;
+  return (
+    <Grid id={id} container height="100vh">
+      <MouseWarpGeometry />
+    </Grid>
+  );
 };
 
 const scrollNavConfig = [
@@ -38,12 +49,12 @@ const scrollNavConfig = [
   },
   {
     label: 'Section 1',
-    id: 'sec1',
+    id: 'clickMe',
   },
-  // {
-  //   label: 'Section 2',
-  //   id: 'sec2',
-  // },
+  {
+    label: 'Section 2',
+    id: 'baked',
+  },
   // {
   //   label: 'Section 3',
   //   id: 'sec3',
@@ -59,11 +70,13 @@ const MainPage = () => {
     <>
       <Box className="scrollSnapContainer">
         <WelcomeSection id="welcomeSection" />
-        <ClickMeSection id="sec1" />
+        <ClickMeSection id="clickMe" />
+        <BakedSceneSection id="baked" />
       </Box>
       <ScrollNavigation
         // activeIndex={snapIndex}
-        config={scrollNavConfig} />
+        config={scrollNavConfig}
+      />
     </>
   );
 };
