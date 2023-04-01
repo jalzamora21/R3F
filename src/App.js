@@ -4,6 +4,7 @@ import { Leva } from 'leva';
 import ScrollNavigation from './components/ScrollNavigation/ScrollNavigation';
 import BugReportIcon from '@mui/icons-material/BugReport';
 import { useState } from 'react';
+import {Loader} from "@react-three/drei";
 
 const darkTheme = createTheme({
   palette: {
@@ -25,6 +26,7 @@ const App = () => {
       >
         <BugReportIcon color={debugActive ? 'success' : 'inherit'} />
       </IconButton>
+      <Loader />
     </ThemeProvider>
   );
 };

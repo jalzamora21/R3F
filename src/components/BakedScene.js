@@ -1,6 +1,6 @@
 import { Canvas, useFrame, extend, useThree } from '@react-three/fiber';
 import { Raycaster, Vector2, MeshBasicMaterial, sRGBEncoding } from 'three';
-import {useEffect, useRef, useState} from 'react';
+import {Suspense, useEffect, useRef, useState} from 'react';
 import {OrbitControls, useGLTF, useTexture} from '@react-three/drei';
 
 const BakedSceneGeometry = (props) => {
@@ -46,7 +46,9 @@ const BakedScene = (props) => {
     <Canvas>
       <OrbitControls />
       <ambientLight />
-      <BakedSceneGeometry></BakedSceneGeometry>
+      <Suspense fallback={null}>
+        <BakedSceneGeometry></BakedSceneGeometry>
+      </Suspense>
     </Canvas>
   );
 };
