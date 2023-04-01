@@ -7,11 +7,11 @@ import MouseWarpGeometry from '../components/MouseWarpGeometry';
 
 const ClickMeSection = ({ id }) => {
   return (
-    <Grid id={id} container height="500px" justifyContent="center">
+    <Grid id={id} container height="100vh" justifyContent="center">
       <Grid xs={12} md={6} height="100%">
         <ClickMeGeometry></ClickMeGeometry>
       </Grid>
-      <Grid xs={12} md={6} sx={{ p: 8 }}>
+      <Grid xs={12} md={6} sx={{ p: 8, mt: 'auto', mb: 'auto' }}>
         <Typography variant="h2">{'<- Click me!'}</Typography>
         <Typography align="justify">
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius hic iste itaque minus
@@ -40,18 +40,18 @@ const scrollNavConfig = [
     label: 'Section 1',
     id: 'sec1',
   },
-  {
-    label: 'Section 2',
-    id: 'sec2',
-  },
-  {
-    label: 'Section 3',
-    id: 'sec3',
-  },
-  {
-    label: 'Section 4',
-    id: 'sec4',
-  },
+  // {
+  //   label: 'Section 2',
+  //   id: 'sec2',
+  // },
+  // {
+  //   label: 'Section 3',
+  //   id: 'sec3',
+  // },
+  // {
+  //   label: 'Section 4',
+  //   id: 'sec4',
+  // },
 ];
 
 const MainPage = () => {
@@ -60,9 +60,6 @@ const MainPage = () => {
       <Box className="scrollSnapContainer">
         <WelcomeSection id="welcomeSection" />
         <ClickMeSection id="sec1" />
-        <ClickMeSection id="sec2" />
-        <ClickMeSection id="sec3" />
-        <ClickMeSection id="sec4" />
       </Box>
       <ScrollNavigation
         // activeIndex={snapIndex}
