@@ -4,7 +4,8 @@ import ClickMeGeometry from '../components/ClickMeGeometry';
 import './mainPage.css';
 import ScrollNavigation from '../components/ScrollNavigation/ScrollNavigation';
 import MouseWarpGeometry from '../components/MouseWarpGeometry';
-import BakedScene from "../components/BakedScene";
+import BakedScene from '../components/BakedScene';
+import {useEffect, useState} from "react";
 
 const ClickMeSection = ({ id }) => {
   return (
@@ -28,11 +29,11 @@ const ClickMeSection = ({ id }) => {
 
 const BakedSceneSection = ({ id }) => {
   return (
-      <Grid id={id} container height="100vh">
-        <BakedScene />
-      </Grid>
-  )
-}
+    <Grid id={id} container height="100vh">
+      <BakedScene />
+    </Grid>
+  );
+};
 
 const WelcomeSection = ({ id }) => {
   return (
@@ -42,40 +43,34 @@ const WelcomeSection = ({ id }) => {
   );
 };
 
-const scrollNavConfig = [
-  {
-    label: 'Welcome',
-    id: 'welcomeSection',
-  },
-  {
-    label: 'Section 1',
-    id: 'clickMe',
-  },
-  {
-    label: 'Section 2',
-    id: 'baked',
-  },
-  // {
-  //   label: 'Section 3',
-  //   id: 'sec3',
-  // },
-  // {
-  //   label: 'Section 4',
-  //   id: 'sec4',
-  // },
-];
-
 const MainPage = () => {
+  const [contentConfig, setContentConfig] = useState();
+
+  useEffect(() => {
+    fetch('/content.json')
+      .then((data) => data.json())
+      .then((json) => setContentConfig(json));
+  }, []);
+
+  if (contentConfig == null) return;
+
   return (
     <>
       <Box className="scrollSnapContainer">
-        <WelcomeSection id="welcomeSection" />
-        <ClickMeSection id="clickMe" />
-        <BakedSceneSection id="baked" />
+        {contentConfig.map((item) => {
+          switch (item.component) {
+            case 'WelcomeSection':
+              return <WelcomeSection id={item.id} />;
+            case 'ClickMeSection':
+              return <ClickMeSection id={item.id} />;
+            case 'BakedSceneSection':
+              return <BakedSceneSection id={item.id} />;
+          }
+        })}
       </Box>
       <ScrollNavigation
         // activeIndex={snapIndex}
-        config={scrollNavConfig}
+        config={contentConfig}
       />
     </>
   );
