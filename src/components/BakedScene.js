@@ -1,7 +1,7 @@
 import { Canvas, useFrame, extend, useThree } from '@react-three/fiber';
 import { Raycaster, Vector2, MeshBasicMaterial, sRGBEncoding } from 'three';
 import { Suspense, useEffect, useRef, useState } from 'react';
-import { OrbitControls, useGLTF, useTexture } from '@react-three/drei';
+import {OrbitControls, useGLTF, useMatcapTexture, useTexture} from '@react-three/drei';
 import { Physics, usePlane, useSphere } from '@react-three/cannon';
 import pingSound from '../resources/ping.mp3';
 import { useControls } from 'leva';
@@ -9,6 +9,11 @@ import { useControls } from 'leva';
 const ping = new Audio(pingSound);
 
 const BouncyBall = (props) => {
+  const [matcap, url] = useMatcapTexture(
+      273, // index of the matcap texture https://github.com/emmelleppi/matcaps/blob/master/matcap-list.json
+      512 // size of the texture ( 64, 128, 256, 512, 1024 )
+  )
+
   const { bounceFactor } = useControls('BouncyBall', {
     bounceFactor: { value: 0.8, min: 0, max: 2 },
   });
@@ -37,6 +42,7 @@ const BouncyBall = (props) => {
       }}
     >
       <sphereGeometry />
+      <meshMatcapMaterial matcap={matcap} />
     </mesh>
   );
 };
