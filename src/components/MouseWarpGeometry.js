@@ -6,7 +6,7 @@ import { useRef, useState } from 'react';
 import { shaderMaterial } from '@react-three/drei';
 
 const ColorShiftMaterial = shaderMaterial(
-  { u_mouse: new Vector2(0, 0) },
+  { color: new Color(0xfff), u_mouse: new Vector2(0, 0) },
   /*glsl*/`
     uniform vec2 u_mouse;
     varying vec2 vUv;
@@ -30,7 +30,8 @@ const ColorShiftMaterial = shaderMaterial(
     void main() {
       // gl_FragColor.rgba = vec4(mouseDistance, mouseDistance, mouseDistance, 1.0);
       // gl_FragColor.rgba = mouseDistance < 50.0 ? vec4(color, 1.0) : vec4(color2, 1.0);
-      gl_FragColor.rgba = vec4(u_mouse, 1.0, 1.0);
+      vec4 colorShiftedColor = vec4(u_mouse, 128.0, 1.0);
+      gl_FragColor.rgba = mix(vec4(color, 1.0), colorShiftedColor, mouseDistance*4.0);
     }
   `
 );
@@ -38,6 +39,9 @@ const ColorShiftMaterial = shaderMaterial(
 extend({ ColorShiftMaterial });
 
 const PlaneWarp = (props) => {
+  const { baseColor } = useControls('WarpGeometry', {
+    baseColor: '#000',
+  });
     // This reference will give us direct access to the mesh
   const mesh = useRef();
   // Set up state for the hovered and active state
@@ -81,7 +85,7 @@ const PlaneWarp = (props) => {
     >
       <planeGeometry args={[20, 10, 20, 10]} />
       {/*<meshStandardMaterial wireframe={true} />*/}
-      <colorShiftMaterial wireframe={true} u_mouse={uvPosition} />
+      <colorShiftMaterial wireframe={true} u_mouse={uvPosition} color={baseColor} />
     </mesh>
   );
 };
