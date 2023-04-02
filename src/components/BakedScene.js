@@ -1,18 +1,19 @@
 import { Canvas, useFrame, extend, useThree } from '@react-three/fiber';
 import { Raycaster, Vector2, MeshBasicMaterial, sRGBEncoding } from 'three';
 import { Suspense, useEffect, useRef, useState } from 'react';
-import {OrbitControls, useGLTF, useMatcapTexture, useTexture} from '@react-three/drei';
+import { OrbitControls, useGLTF, useMatcapTexture, useTexture } from '@react-three/drei';
 import { Physics, usePlane, useSphere } from '@react-three/cannon';
 import pingSound from '../resources/ping.mp3';
 import { useControls } from 'leva';
+import { Bloom, DepthOfField, EffectComposer, Noise, Vignette } from '@react-three/postprocessing';
 
 const ping = new Audio(pingSound);
 
 const BouncyBall = (props) => {
   const [matcap, url] = useMatcapTexture(
-      273, // index of the matcap texture https://github.com/emmelleppi/matcaps/blob/master/matcap-list.json
-      512 // size of the texture ( 64, 128, 256, 512, 1024 )
-  )
+    273, // index of the matcap texture https://github.com/emmelleppi/matcaps/blob/master/matcap-list.json
+    512, // size of the texture ( 64, 128, 256, 512, 1024 )
+  );
 
   const { bounceFactor } = useControls('BouncyBall', {
     bounceFactor: { value: 0.8, min: 0, max: 2 },
@@ -85,20 +86,45 @@ const BakedSceneGeometry = (props) => {
 };
 
 const BakedScene = (props) => {
+  const {
+    dofEnabled,
+    dofFocusDistance,
+    dofFocalLength,
+    dofBokehScale,
+    bloomEnabled,
+    noiseEnabled,
+    noiseOpacity,
+    vignetteEnabled,
+  } = useControls('BakedScene', {
+    dofEnabled: { value: false },
+    dofFocusDistance: { value: 0, min: 0, max: 10 },
+    dofFocalLength: { value: 0.02, min: 0, max: 1 },
+    dofBokehScale: { value: 2, min: 0, max: 10 },
+    bloomEnabled: { value: false },
+    noiseEnabled: { value: true },
+    noiseOpacity: { value: 0.02, min: 0, max: 1 },
+    vignetteEnabled: { value: true },
+  });
+
   return (
     <Canvas>
       <Physics>
         <OrbitControls />
         <ambientLight />
         <Suspense fallback={null}>
-          <BouncyBall
-            mass={1}
-            position={[0, 2, 0]}
-          ></BouncyBall>
+          <BouncyBall mass={1} position={[0, 2, 0]}></BouncyBall>
           <PhysicsPlane rotation={[-Math.PI / 2, 0, 0]}></PhysicsPlane>
           <BakedSceneGeometry></BakedSceneGeometry>
         </Suspense>
       </Physics>
+      <EffectComposer>
+        {dofEnabled && (
+          <DepthOfField focusDistance={dofFocusDistance} focalLength={dofFocalLength} bokehScale={dofBokehScale} height={480} />
+        )}
+        {bloomEnabled && <Bloom luminanceThreshold={0} luminanceSmoothing={0.9} height={300} />}
+        {noiseEnabled && <Noise opacity={noiseOpacity} />}
+        {vignetteEnabled && <Vignette eskil={false} offset={0.1} darkness={1.1} />}
+      </EffectComposer>
     </Canvas>
   );
 };
